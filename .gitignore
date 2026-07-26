@@ -1,0 +1,42 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Claude Code
+.claude/*
+!.claude/settings.json
+!.claude/hooks/
+
+# Python
+__pycache__/
+
+# Node.js
+node_modules/
+
+# macOS
+.DS_Store
+
+# co-agent personal panel settings (model/effort/enabled/timeout overrides)
+.claude/co-agent.local.json
+
+# co-agent consensus session artifacts (raw model outputs, validated findings — ephemeral)
+.claude/co-agent-consensus/
+
+# co-agent panel-readiness summary (written by /co-agent:setup — machine-local)
+.claude/co-agent-panel.local.json
+
+# kiro plugin personal settings (model/effort/toggle overrides)
+.claude/kiro.local.json
+# kiro plugin delegate worktrees (implement-loop scratch space)
+.claude/kiro-delegate/
+# kiro plugin custom agents (personal setup artifact, written by /kiro:setup)
+.kiro/agents/
+# kiro plugin specs (working scratch space for /kiro:delegate)
+.kiro/specs/
+
+# runtime artifacts
+*.pid
+
+# skill eval workspaces — generated run artifacts, not tracked
+plugins/*/skills/*-workspace/
