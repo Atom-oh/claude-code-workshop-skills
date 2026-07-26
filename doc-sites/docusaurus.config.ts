@@ -11,7 +11,7 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://Atom-oh.github.io',
+  url: 'https://www.atomai.click',
   baseUrl: '/claude-code-workshop-skills/',
 
   organizationName: 'Atom-oh',
