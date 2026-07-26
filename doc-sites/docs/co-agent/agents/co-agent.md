@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: "co-agent"
+sidebar_label: "에이전트: co-agent"
 ---
 
 # co-agent Agent

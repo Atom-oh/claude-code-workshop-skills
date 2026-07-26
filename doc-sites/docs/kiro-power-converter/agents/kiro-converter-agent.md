@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: "Kiro Converter Agent"
+sidebar_label: "에이전트: kiro-converter-agent"
 ---
 
 # Kiro Converter Agent

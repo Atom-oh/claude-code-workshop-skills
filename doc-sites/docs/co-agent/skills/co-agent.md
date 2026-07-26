@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: "co-agent"
+sidebar_label: "스킬: co-agent"
 ---
 
 # co-agent Skill

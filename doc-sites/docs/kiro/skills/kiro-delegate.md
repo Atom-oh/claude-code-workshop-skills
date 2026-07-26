@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: "kiro-delegate"
+sidebar_label: "스킬: kiro-delegate"
 ---
 
 # kiro-delegate Skill

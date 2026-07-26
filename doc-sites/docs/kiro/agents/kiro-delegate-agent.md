@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: "kiro-delegate-agent"
+sidebar_label: "에이전트: kiro-delegate-agent"
 ---
 
 # kiro-delegate-agent

@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: "Kiro Convert 스킬"
+sidebar_label: "스킬: kiro-convert"
 ---
 
 # Kiro Convert 스킬
