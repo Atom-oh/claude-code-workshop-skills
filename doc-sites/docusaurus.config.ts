@@ -84,6 +84,12 @@ const config: Config = {
           label: 'kiro-power-converter',
         },
         {
+          type: 'docSidebar',
+          sidebarId: 'workshopRecap',
+          position: 'left',
+          label: 'workshop-recap',
+        },
+        {
           href: 'https://github.com/Atom-oh/claude-code-workshop-skills',
           label: 'GitHub',
           position: 'right',
@@ -99,6 +105,7 @@ const config: Config = {
             {label: 'co-agent', to: '/docs/co-agent/overview'},
             {label: 'kiro', to: '/docs/kiro/overview'},
             {label: 'kiro-power-converter', to: '/docs/kiro-power-converter/overview'},
+            {label: 'workshop-recap', to: '/docs/workshop-recap/overview'},
           ],
         },
         {

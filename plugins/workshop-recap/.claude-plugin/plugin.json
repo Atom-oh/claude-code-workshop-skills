@@ -1,0 +1,26 @@
+{
+  "name": "workshop-recap",
+  "version": "1.15.0",
+  "description": "Turn a finished workshop capstone into one polished, self-contained HTML showcase page — built from the project's own generated content (CLAUDE.md, subagents, hooks, settings, specs, CI workflows), including an evidenced inventory of which Claude Code capabilities were exercised.",
+  "author": {
+    "name": "atomoh"
+  },
+  "agents": [
+    "./agents/capstone-recap-agent.md"
+  ],
+  "skills": [
+    "./skills/capstone-recap"
+  ],
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'workshop-recap loaded. Finished your capstone? Ask to summarize your work as an HTML page (\"지금까지 만든 산출물을 정리해서 html로 만들어줘\") — the page is built from your project'\\''s own CLAUDE.md, subagents, hooks, specs, and CI, never invented.'"
+          }
+        ]
+      }
+    ]
+  }
+}

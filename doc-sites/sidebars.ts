@@ -30,6 +30,13 @@ const sidebars: SidebarsConfig = {
     'kiro-power-converter/skills/kiro-convert',
     'kiro-power-converter/demos/conversion-example',
   ],
+
+  workshopRecap: [
+    'workshop-recap/overview',
+    'workshop-recap/installation',
+    'workshop-recap/agents/capstone-recap-agent',
+    'workshop-recap/skills/capstone-recap',
+  ],
 };
 
 export default sidebars;

@@ -1,0 +1,25 @@
+{
+  "name": "workshop-recap",
+  "version": "1.15.0",
+  "description": "Turn a finished workshop capstone into one polished, self-contained HTML showcase page, built from the project's own generated content and an evidenced inventory of the agent capabilities it uses",
+  "author": {
+    "name": "atomoh"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Workshop Recap",
+    "shortDescription": "Summarize a finished capstone project as one self-contained HTML page.",
+    "longDescription": "Scan a capstone project for the content it already generated — agent instruction files (CLAUDE.md/AGENTS.md), subagent definitions, hooks and settings, authored skills, MCP servers, design specs, CI workflows, and infrastructure-as-code — then render a single self-contained HTML showcase: detailed overview, live demo capture, architecture, and an inventory of which agent capabilities the project actually exercised. Every claim cites the real file it came from; anything unevidenced is omitted rather than invented.",
+    "developerName": "atomoh",
+    "category": "Documentation",
+    "capabilities": [
+      "Skills",
+      "Write",
+      "Shell"
+    ],
+    "defaultPrompt": [
+      "지금까지 만든 산출물을 정리해서 html로 만들어줘",
+      "Summarize my capstone project as a single HTML showcase page."
+    ]
+  }
+}

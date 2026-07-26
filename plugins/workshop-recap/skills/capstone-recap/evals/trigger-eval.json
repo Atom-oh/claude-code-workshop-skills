@@ -1,0 +1,25 @@
+[
+  {"query": "지금까지 만든 산출물을 정리해서 html로 만들어줘", "should_trigger": true},
+  {"query": "워크숍 결과물 정리해서 한 페이지로 보여주는 html 만들어줘", "should_trigger": true},
+  {"query": "캡스톤 끝났어. 내가 만든 거랑 어떤 스킬 썼는지 정리한 페이지 뽑아줘", "should_trigger": true},
+  {"query": "오늘 실습한 결과 정리해서 팀에 공유할 수 있게 html 한 장으로 만들어줄래?", "should_trigger": true},
+  {"query": "이 프로젝트에서 만든 서브에이전트랑 훅들 정리해서 소개 페이지 만들어줘", "should_trigger": true},
+  {"query": "capstone summary page for the platformer game I just finished, include the specs and the agents I wrote", "should_trigger": true},
+  {"query": "workshop recap as a single self-contained html file I can open locally and screenshot", "should_trigger": true},
+  {"query": "summarize what I built today into one showcase page, pull the details from CLAUDE.md", "should_trigger": true},
+  {"query": "내 RAG 사서 캡스톤 결과 페이지 만들어줘, 배포된 URL도 넣어서", "should_trigger": true},
+  {"query": "generative art gallery capstone is deployed — write it up as an html showcase", "should_trigger": true},
+
+  {"query": "kiro한테 시켜서 이 API 엔드포인트 구현해줘", "should_trigger": false},
+  {"query": "co-agent로 이 아키텍처 리뷰 좀 받아보고 싶어", "should_trigger": false},
+  {"query": "이 플러그인 키로 파워로 변환해줘", "should_trigger": false},
+  {"query": "우리 제품 소개하는 랜딩 페이지 브로셔 형식으로 만들어줘", "should_trigger": false},
+  {"query": "html 파일 하나 만들어줘 버튼 세 개 있는 폼으로", "should_trigger": false},
+  {"query": "이 워크숍 플러그인들이 각각 뭐 하는 건지 설명만 해줘", "should_trigger": false},
+  {"query": "git log 좀 보여줘 오늘 커밋한 것들", "should_trigger": false},
+  {"query": "CLAUDE.md에 컨벤션 섹션 하나 추가해줘", "should_trigger": false},
+  {"query": "서브에이전트 하나 새로 만들어줘, 테스트 돌리는 용도로", "should_trigger": false},
+  {"query": "capstone mission E 어떻게 시작하면 돼? 플랫포머 게임 만들고 싶은데", "should_trigger": false},
+  {"query": "deploy this to cloudfront for me", "should_trigger": false},
+  {"query": "read the README and tell me what this project does", "should_trigger": false}
+]

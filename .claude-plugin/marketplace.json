@@ -24,6 +24,12 @@
       "version": "1.15.0",
       "source": "./plugins/kiro-power-converter",
       "description": "Convert Claude Code plugins to Kiro Power format — supports GitHub URL, local path, marketplace name, and individual skill conversion"
+    },
+    {
+      "name": "workshop-recap",
+      "version": "1.15.0",
+      "source": "./plugins/workshop-recap",
+      "description": "Write up a finished workshop capstone as one self-contained HTML showcase page — overview, demo capture, and an evidenced inventory of the agent capabilities used, sourced from the project's own generated content"
     }
   ]
 }

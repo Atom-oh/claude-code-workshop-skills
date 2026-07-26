@@ -29,6 +29,13 @@ const plugins = [
     skills: 1,
     link: '/docs/kiro-power-converter/overview',
   },
+  {
+    title: 'workshop-recap',
+    description: '완성한 캡스톤을 자기완결 HTML 쇼케이스 한 장으로 정리합니다. CLAUDE.md·서브에이전트·훅·스펙 등 프로젝트가 생성한 콘텐츠에서 작성하며, 근거 없는 주장은 넣지 않습니다.',
+    agents: 1,
+    skills: 1,
+    link: '/docs/workshop-recap/overview',
+  },
 ];
 
 function PluginCard({title, description, agents, skills, link}: typeof plugins[0]) {

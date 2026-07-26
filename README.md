@@ -9,6 +9,7 @@ Claude Code plugin marketplace for workshop practice — AWS-internal plugins ex
 | **co-agent** | Multi-AI collaboration (Kiro CLI, Codex, Antigravity): review, decision support, ADR co-authoring — Claude chairs |
 | **kiro** | Cost-savings delegation: Claude plans and verifies, Kiro CLI implements and reviews on its own subscription credits inside an isolated git worktree |
 | **kiro-power-converter** | Convert Claude Code plugins to Kiro IDE Power format |
+| **workshop-recap** | Write up a finished capstone as one self-contained HTML showcase page — built from the project's own generated content (CLAUDE.md, subagents, hooks, specs, CI), with every claim citing its source file |
 
 ## Usage
 
@@ -17,6 +18,7 @@ Claude Code plugin marketplace for workshop practice — AWS-internal plugins ex
 /plugin install co-agent
 /plugin install kiro
 /plugin install kiro-power-converter
+/plugin install workshop-recap
 ```
 
 Or load a plugin locally for testing:

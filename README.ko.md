@@ -9,6 +9,7 @@
 | **co-agent** | 다중 AI 협업 (Kiro CLI, Codex, Antigravity): 리뷰, 의사결정 지원, ADR 공동 작성 — Claude가 의장 역할 |
 | **kiro** | 비용 절감형 위임: Claude가 계획을 세우고 검증하며, Kiro CLI가 자체 구독 크레딧으로 격리된 git worktree 안에서 구현 수행 |
 | **kiro-power-converter** | Claude Code 플러그인을 Kiro IDE Power 포맷으로 변환 |
+| **workshop-recap** | 완성한 캡스톤을 자기완결 HTML 쇼케이스 한 장으로 정리 — 프로젝트가 생성한 콘텐츠(CLAUDE.md, 서브에이전트, 훅, 스펙, CI)에서 작성하며, 모든 주장이 출처 파일을 명시 |
 
 ## 사용법
 
@@ -17,6 +18,7 @@
 /plugin install co-agent
 /plugin install kiro
 /plugin install kiro-power-converter
+/plugin install workshop-recap
 ```
 
 또는 로컬에서 테스트용으로 플러그인을 불러올 수 있습니다:
