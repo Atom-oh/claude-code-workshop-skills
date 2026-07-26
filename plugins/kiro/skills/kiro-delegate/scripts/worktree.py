@@ -6,6 +6,10 @@ with a workspace-write CLI sandbox (see `co_agent_config.py impl-flags`). `captu
 stages only non-ignored changes (`git add -A` respects `.gitignore`) so a `.gitignore`'d
 file a peer creates can never be carried into the main tree.
 
+VERBATIM COPY: this file and kiro's skills/kiro-delegate/scripts/worktree.py must stay
+byte-identical (checked by tests/structure/check_structure.py) — edit this copy and sync
+kiro's, never let them diverge silently.
+
 Usage:
   worktree.py add <wt_path> --base <ref> [--root DIR]
   worktree.py capture-diff <wt_path>

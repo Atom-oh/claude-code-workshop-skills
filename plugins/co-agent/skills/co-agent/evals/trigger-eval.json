@@ -1,0 +1,23 @@
+[
+  {"query": "잘 모르겠어서 다른 AI들 의견도 들어보고 싶어, 이 세션 저장 방식을 JWT로 갈지 서버사이드 세션으로 갈지 kiro랑 codex한테 물어봐줄 수 있어?", "should_trigger": true},
+  {"query": "can you get a second opinion from kiro and codex on this auth middleware diff before I open the PR? I already reviewed it myself but want to be safe", "should_trigger": true},
+  {"query": "다른 AI로 리뷰해줘, 이 캐시 무효화 로직 (cache/invalidate.py) 아키텍처가 걱정돼서", "should_trigger": true},
+  {"query": "let's do an ADR co-authoring session with the panel — decision is whether to move background jobs from celery to a lighter task queue, need alternatives/trade-offs from a few different AIs", "should_trigger": true},
+  {"query": "AI 협업으로 이 PR 좀 검토해줘, kiro-cli 설치돼있고 codex도 있어. 특히 rate limiter 부분", "should_trigger": true},
+  {"query": "second opinion 필요해 — redis vs in-memory LRU 캐시 전략, 여러 AI한테 물어보고 비교표 만들어줄래?", "should_trigger": true},
+  {"query": "ai 패널 열어서 이 마이그레이션 스크립트(migrate_users_v2.py) 위험한지 다른 AI들한테도 검증받고 싶어", "should_trigger": true},
+  {"query": "co-agent로 ADR 하나 같이 써줘 — 결정 사항은 결제 웹훅 재시도를 exponential backoff로 할지 fixed interval로 할지야", "should_trigger": true},
+
+  {"query": "kiro한테 시켜서 이 유저 프로필 수정 API 구현해줘, PATCH /users/:id 엔드포인트고 email이랑 nickname만 바꿀 수 있게", "should_trigger": false},
+  {"query": "delegate implementation of the CSV export feature to kiro, it's the button on the /reports page that currently just shows a 'coming soon' toast", "should_trigger": false},
+  {"query": "can you just review this diff yourself? don't need a panel or anything, just a normal code review of the payment webhook changes", "should_trigger": false},
+  {"query": "이 함수 좀 리뷰해줘, order-total 계산 로직 바꾼 부분", "should_trigger": false},
+  {"query": "help me decide whether to name this variable userId or user_id, just going with your gut is fine", "should_trigger": false},
+  {"query": "add an ADR for this decision — actually just write it yourself in Nygard format, no need to consult anyone else", "should_trigger": false},
+  {"query": "kiro cli 설치돼있는지 확인하고 없으면 설치 방법 좀 알려줘", "should_trigger": false},
+  {"query": "이 PR 코드리뷰 좀 해줘, 특히 null 체크 빠진 부분 있는지", "should_trigger": false},
+  {"query": "review this architecture diagram and tell me if the load balancer placement makes sense, just want your take on it", "should_trigger": false},
+  {"query": "kiro-cli로 이 버그 고치는 것도 아니고 새 기능 구현시키려고 하는데, 알림 설정 페이지에 이메일/푸시 개별 토글 추가해줘", "should_trigger": false},
+  {"query": "just fix the failing test in test_orders.py, straightforward null pointer issue on line 42", "should_trigger": false},
+  {"query": "decide for me: should I use snake_case or camelCase for this new module's file names, whatever you think is more consistent with the rest of the repo", "should_trigger": false}
+]

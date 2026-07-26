@@ -6,7 +6,7 @@ title: 시작하기
 
 # claude-code-workshop-skills 시작하기
 
-**claude-code-workshop-skills**는 [Claude Code](https://claude.ai/code) 워크숍 실습용 플러그인 마켓플레이스입니다. 4개의 플러그인을 제공합니다.
+**claude-code-workshop-skills**는 [Claude Code](https://claude.ai/code) 워크숍 실습용 플러그인 마켓플레이스입니다. 3개의 플러그인을 제공합니다.
 
 ## 플러그인 목록
 
@@ -14,7 +14,6 @@ title: 시작하기
 |----------|------|--------|--------|
 | [co-agent](/docs/co-agent/overview) | 멀티-AI 협업 (Kiro/Codex/Antigravity) — 리뷰·의사결정·ADR·컨텍스트 동기화·consensus·harness 파이프라인, 5개 명령 | 3 | 1 |
 | [kiro](/docs/kiro/overview) | 비용 절감 구현 위임 — Claude가 계획·검증, Kiro CLI가 구독 크레딧으로 구현·리뷰, 4개 명령 | 1 | 1 |
-| [project-init](/docs/project-init/overview) | 프로젝트 스캐폴딩, 문서 동기화, ADR 모순 검토, 10개 명령 | 3 | 3 |
 | [kiro-power-converter](/docs/kiro-power-converter/overview) | Claude Code 플러그인 → Kiro Power 변환 | 1 | 1 |
 
 ## 설치 방법
@@ -28,7 +27,6 @@ title: 시작하기
 # 플러그인 설치
 /plugin install co-agent@claude-code-workshop-skills
 /plugin install kiro@claude-code-workshop-skills
-/plugin install project-init@claude-code-workshop-skills
 /plugin install kiro-power-converter@claude-code-workshop-skills
 ```
 
@@ -41,7 +39,6 @@ git clone https://github.com/Atom-oh/claude-code-workshop-skills.git
 # 플러그인 디렉토리를 직접 지정하여 로드
 claude --plugin-dir ./claude-code-workshop-skills/plugins/co-agent
 claude --plugin-dir ./claude-code-workshop-skills/plugins/kiro
-claude --plugin-dir ./claude-code-workshop-skills/plugins/project-init
 claude --plugin-dir ./claude-code-workshop-skills/plugins/kiro-power-converter
 ```
 
@@ -63,5 +60,4 @@ plugins/<plugin-name>/
 
 - [co-agent 개요](/docs/co-agent/overview) — 멀티-AI 협업 플러그인 (리뷰·의사결정·ADR·컨텍스트 동기화 + `/co-agent:configure`)
 - [kiro 개요](/docs/kiro/overview) — 비용 절감 구현 위임 플러그인 (Claude 계획·검증 + Kiro CLI 구현·리뷰)
-- [project-init 개요](/docs/project-init/overview) — 프로젝트 스캐폴딩 플러그인
 - [kiro-power-converter 개요](/docs/kiro-power-converter/overview) — Kiro Power 변환 플러그인

@@ -21,7 +21,7 @@ command -v agy      >/dev/null 2>&1 && echo "agy ok"
 
 | AI | Command | Notes |
 |----|---------|-------|
-| **Kiro** | `kiro-cli chat "<PROMPT>\n\nRead the review context with fs_read from: <CTX_FILE>" --v3 --mode default --no-interactive --trust-tools=fs_read --wrap never` | ⚠️ The binary is **`kiro-cli`** — always invoke it by that exact name. Input goes in the positional `[INPUT]` (argv), **NOT** piped stdin (Kiro ignores stdin in `chat`). For anything beyond a tiny probe, **do NOT embed the diff in argv** (`ps` exposure + `ARG_MAX`) — write it to a temp file and put a short *"fs_read this file"* instruction in argv; Kiro reads it via `fs_read` (the real read-only tool name; the old `read,grep` were invalid). Auth via login **or** `KIRO_API_KEY` (Pro/Pro+/Power). `--wrap never` = clean output. co-agent's own roster (`claude-opus-4.8`/`minimax-m2.5`/`glm-5`) doesn't hit it, but `--v3` routes to a narrower-catalog backend that rejects some models (reproduced with `gpt-5.5`, the pre-ADR-014 name, as `INVALID_MODEL_ID`) — CI pr-review's path (`scripts/pr-review/run-panel.sh`) drops `--v3` for this reason (ADR-012). The current roster value is `gpt-5.6-terra` (ADR-014) — untested against `--v3` under the new name, but the underlying backend-catalog gap it hit is unrelated to the model name itself, so treat it the same way: if this roster ever needs `gpt-5.6-terra`, drop `--v3` here too rather than assuming the model itself is unsupported. |
+| **Kiro** | `kiro-cli chat "<PROMPT>\n\nRead the review context with fs_read from: <CTX_FILE>" --v3 --mode default --no-interactive --trust-tools=fs_read --wrap never` | ⚠️ The binary is **`kiro-cli`** — always invoke it by that exact name. Input goes in the positional `[INPUT]` (argv), **NOT** piped stdin (Kiro ignores stdin in `chat`). For anything beyond a tiny probe, **do NOT embed the diff in argv** (`ps` exposure + `ARG_MAX`) — write it to a temp file and put a short *"fs_read this file"* instruction in argv; Kiro reads it via `fs_read` (the real read-only tool name; the old `read,grep` were invalid). Auth via login **or** `KIRO_API_KEY` (Pro/Pro+/Power). `--wrap never` = clean output. co-agent's own roster (`claude-opus-4.8`/`minimax-m2.5`/`glm-5`) doesn't hit it, but `--v3` routes to a narrower-catalog backend that rejects some models (reproduced with a pre-rename model id as `INVALID_MODEL_ID`) — drop `--v3` for any model that hits this. The current roster value is `gpt-5.6-terra` — untested against `--v3` under this name, but the underlying backend-catalog gap is unrelated to the model name itself, so treat it the same way: if this roster ever needs `gpt-5.6-terra`, drop `--v3` here too rather than assuming the model itself is unsupported. |
 | **Claude** | `claude -p "<PROMPT>" --permission-mode plan --tools Read,Grep,Glob --output-format text` | Used only when Codex is the host. Plan permission mode + read-only tools keep the call advisory. Pipe ctx: `cat ctx \| claude -p "<PROMPT>" …`. |
 | **Codex** | `codex exec -s read-only "<PROMPT>"` | `-s read-only` = read-only sandbox (no writes). Pipe ctx: `cat ctx \| codex exec -s read-only "<PROMPT>"`. Free tier has model limits. |
 | **Agy** | `agy -p "<PROMPT>" --sandbox` | Preferred third reviewer. **`-p` print mode = advisory** (emits text, never acts) — agy's read-only guarantee comes from `-p`, not from `--sandbox` (a *single* mode, no read-only flag like Codex's). Pipe ctx: `cat ctx \| agy -p "<PROMPT>" --sandbox`. Implement path drops `-p`, runs in a worktree cwd — see `delegated-implement.md`. |
@@ -191,17 +191,17 @@ reason over content an attacker may control. Treat this as a trust boundary:
 - **Cost**: a fan-out invokes up to 3 metered AI services at once; for large/repeated
   runs, say so and let the user opt in.
 
-## ADR hand-off (project-init `/add-adr`)
+## ADR hand-off
 
-`/add-adr` (project-init) creates `docs/decisions/ADR-NNN.md` with auto-numbering.
 co-agent's ADR mode provides the **collaboration layer** that enriches the
 "Considered Alternatives" and "Consequences" sections with panel input. Flow:
 
 1. `/co-agent` ADR mode gathers panel alternatives/trade-offs/risks.
 2. The host drafts the ADR body (Nygard format) merging them.
-3. Write to `docs/decisions/ADR-NNN.md` following the `/add-adr` numbering convention
-   (or paste into the file `/add-adr` created). co-agent does **not** modify the
-   upstream `/add-adr` command itself.
+3. Auto-number against existing `docs/decisions/ADR-*.md` and write to
+   `docs/decisions/ADR-NNN.md`. If the repo has its own ADR-creation command with its
+   own numbering/location convention, defer to that command instead — co-agent does
+   **not** modify or replace another plugin's ADR command.
 
 ## Project context files
 

@@ -138,10 +138,11 @@ Co-author an Architecture Decision Record with the panel.
    `# ADR-NNN: <title>` → Status · Context · Decision · **Considered Alternatives**
    (enriched by the panel, attributing notable points) · **Consequences** (pros/cons,
    risks the panel surfaced) · Date.
-4. **project-init integration**: if the repo uses `/add-adr` (project-init), co-agent
-   provides this collaboration layer; write the ADR to `docs/decisions/ADR-NNN.md`
-   following that convention. (We don't modify `/add-adr` — it can optionally invoke
-   co-agent; see `references/ai-cli-adapters.md` → ADR hand-off.)
+4. **Auto-numbered save**: scan `docs/decisions/ADR-*.md` for the highest existing `NNN`
+   and write the new ADR to `docs/decisions/ADR-<NNN+1>.md`. If the repo instead has its
+   own ADR-creation command with its own numbering/location convention, use that
+   command's convention instead of co-agent's own scan (see `references/ai-cli-adapters.md`
+   → ADR hand-off).
 
 ### Mode 4 — sync-context  (also the standalone command **`/co-agent:sync-context`**)
 Give the external AIs project context so they review with the project's conventions.

@@ -79,12 +79,6 @@ const config: Config = {
         },
         {
           type: 'docSidebar',
-          sidebarId: 'projectInit',
-          position: 'left',
-          label: 'project-init',
-        },
-        {
-          type: 'docSidebar',
           sidebarId: 'kiroConverter',
           position: 'left',
           label: 'kiro-power-converter',
@@ -104,7 +98,6 @@ const config: Config = {
           items: [
             {label: 'co-agent', to: '/docs/co-agent/overview'},
             {label: 'kiro', to: '/docs/kiro/overview'},
-            {label: 'project-init', to: '/docs/project-init/overview'},
             {label: 'kiro-power-converter', to: '/docs/kiro-power-converter/overview'},
           ],
         },

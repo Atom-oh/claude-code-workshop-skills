@@ -59,7 +59,7 @@ co-agent로 다른 AI(Kiro CLI · Codex · Agy)와 협업해 리뷰·의사결�
 ```
 
 - 패널에서 대안·트레이드오프·리스크 수집 → Claude가 **Nygard 형식 ADR 초안**
-- project-init `/add-adr`과 연동해 `docs/decisions/ADR-NNN.md`에 저장
+- `docs/decisions/ADR-*.md`를 스캔해 자동 번호 부여 후 `docs/decisions/ADR-NNN.md`에 저장
 
 ### 4. sync-context — AI 컨텍스트 동기화
 

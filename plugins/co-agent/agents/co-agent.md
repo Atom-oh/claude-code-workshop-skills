@@ -26,7 +26,7 @@ degrades gracefully, never hard-fails on a missing one.
 2. **Decision Support** — when the user is unsure ("잘 모르겠어"), put the decision +
    options to the panel, build a comparison table, give a synthesized recommendation.
 3. **ADR Co-authoring** — gather alternatives/trade-offs/risks from the panel, draft a
-   Nygard-format ADR; integrates with project-init `/add-adr`.
+   Nygard-format ADR, auto-number it against `docs/decisions/ADR-*.md`, and save it.
 
 Claude is always the chair: attribute points to each AI, surface disagreement, own the verdict.
 
@@ -80,11 +80,9 @@ or errored output means that AI skipped this run — note it and continue.
 
 ## Integration with other agents
 
-| 상황 | 연계 | 역할 분담 |
-|------|------|-----------|
-| 코드/PR 리뷰 | `project-init:pr-autofix` | co-agent가 멀티-AI 리뷰, pr-autofix가 피드백 반영 |
-| 설계 의사결정 | `project-init:/add-adr` | co-agent가 패널 협업 + ADR 초안, add-adr이 번호 부여/저장 |
-| AWS 인프라 변경 | `aws-ops-plugin` 에이전트 | co-agent가 다중 AI 설계 검증, ops가 실행 진단 |
+이 마켓플레이스는 현재 `co-agent`·`kiro`·`kiro-power-converter`만 제공한다.
+PR 리뷰 피드백 반영은 사용자가 직접(또는 `kiro:delegate`로) 하고, ADR 번호 부여/저장은
+co-agent가 자체적으로 수행한다(위 "ADR Co-authoring" 참고) — 별도 플러그인 연계는 없다.
 
 ---
 

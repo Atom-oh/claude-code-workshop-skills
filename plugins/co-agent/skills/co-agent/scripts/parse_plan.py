@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Parse a writing-plans implementation plan (.md) into structured tasks.
 
+VERBATIM COPY: this file and kiro's skills/kiro-delegate/scripts/parse_plan.py must stay
+byte-identical (checked by tests/structure/check_structure.py) — edit this copy and sync
+kiro's, never let them diverge silently.
+
 A plan has `### Task N: <title>` sections, each with a `**Files:**` block listing
 `Create:`/`Modify:`/`Test:` paths and one or more `- [ ]` checkbox steps. This extracts
 that structure so the consensus pipeline knows the task list and the ALLOWED FILE SET

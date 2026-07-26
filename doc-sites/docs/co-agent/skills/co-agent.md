@@ -57,7 +57,7 @@ echo "Panel: ${PANEL:-none (Claude solo)}"
 
 1. 컨텍스트 + 기록할 결정 확정.
 2. "현실적 대안 + 트레이드오프 + 리스크"를 패널에 팬아웃.
-3. **Claude가 Nygard ADR 초안** 작성(Considered Alternatives / Consequences를 패널 입력으로 보강, 출처 표기). project-init `/add-adr`과 연동해 `docs/decisions/ADR-NNN.md`에 저장.
+3. **Claude가 Nygard ADR 초안** 작성(Considered Alternatives / Consequences를 패널 입력으로 보강, 출처 표기). `docs/decisions/ADR-*.md`를 스캔해 자동 번호 부여 후 `docs/decisions/ADR-NNN.md`에 저장.
 
 ## 모드 4 — sync-context (AI 컨텍스트 동기화)
 

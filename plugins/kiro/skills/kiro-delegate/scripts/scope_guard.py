@@ -4,6 +4,10 @@ only if it is in the plan's declared file set (the union of every task's Create/
 Test paths, via parse_plan). Used before any autonomous edit so the loop can't sprawl
 beyond the reviewed plan.
 
+VERBATIM COPY: this file and kiro's skills/kiro-delegate/scripts/scope_guard.py must stay
+byte-identical (checked by tests/structure/check_structure.py) — edit this copy and sync
+kiro's, never let them diverge silently.
+
 Usage:
   scope_guard.py --plan <plan.md> -- <path>...   # exit 0 if ALL paths in scope, else 1
   scope_guard.py --plan <plan.md> --list         # print the allowed file set

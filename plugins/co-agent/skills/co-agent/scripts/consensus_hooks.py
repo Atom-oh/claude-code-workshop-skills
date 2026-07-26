@@ -180,7 +180,7 @@ def ev_post_tooluse(root):
         return 0
     payload = _stdin_json()
     cmd = (payload.get("tool_input", {}) or {}).get("command", "")
-    if "run-all.sh" in cmd or "test-plugins.py" in cmd or "pytest" in cmd:
+    if "run-all.sh" in cmd or "pytest" in cmd:
         # record a coarse pass/fail signal from the tool result if present
         out = json.dumps(payload.get("tool_response", payload.get("tool_result", "")))
         passed = ("ALL TESTS PASSED" in out) or ("passed" in out and not re.search(r"[1-9]\d* failed", out))

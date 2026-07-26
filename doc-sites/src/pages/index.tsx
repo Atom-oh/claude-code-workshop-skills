@@ -16,13 +16,6 @@ const plugins = [
     link: '/docs/co-agent/overview',
   },
   {
-    title: 'project-init',
-    description: '프로젝트 구조 스캐폴딩, 문서 동기화, PR 리뷰 피드백 자동 수정, ADR 모순 검토를 지원합니다.',
-    agents: 1,
-    skills: 3,
-    link: '/docs/project-init/overview',
-  },
-  {
     title: 'kiro',
     description: 'Claude가 계획을 세우고 검증하며, Kiro CLI가 자체 구독 크레딧으로 격리된 git worktree 안에서 구현을 수행합니다. 비용 절감형 구현 위임 플러그인입니다.',
     agents: 1,

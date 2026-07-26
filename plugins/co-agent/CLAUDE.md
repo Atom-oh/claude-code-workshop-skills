@@ -27,7 +27,7 @@ co-agent
   ├── Step 0: 패널 감지 (kiro-cli / codex / agy 중 설치된 것)
   ├── Review       : git diff → 동일 프롬프트 팬아웃 → 합의/이견 종합 → PASS/REVIEW/FAIL
   ├── Decide       : 결정+옵션 팬아웃 → 비교표 → Claude 추천 (의장)
-  ├── ADR          : 대안·트레이드오프·리스크 팬아웃 → Nygard ADR 초안 → /add-adr 연동
+  ├── ADR          : 대안·트레이드오프·리스크 팬아웃 → Nygard ADR 초안 → docs/decisions/ADR-NNN.md 자동 번호 부여·저장
   ├── sync-context : CLAUDE.md 증류 → AGENTS.md(Codex) 생성 + Kiro steering bridge 연결
   ├── consensus    : doc→plan→구현 자율 파이프라인 + 멀티모델 게이트 (`/co-agent:consensus`)
   ├── harness      : host 설계 / 단일 구현자(configure 선택)·병렬 태스크 서브에이전트(격리 worktree+workspace-write) / 하이브리드 게이트(병렬 find → 체어 triage → 병렬 verify); host가 red·커밋 소유 (`/co-agent:harness`)

@@ -1,0 +1,23 @@
+[
+  {"query": "kiro한테 시켜서 이 유저 프로필 수정 API 구현해줘, PATCH /users/:id 엔드포인트고 email이랑 nickname만 바꿀 수 있게", "should_trigger": true},
+  {"query": "delegate implementation of the CSV export feature to kiro, it's the button on the /reports page that currently just shows a 'coming soon' toast", "should_trigger": true},
+  {"query": "kiro로 구현해줘 - 장바구니에서 수량 0되면 자동으로 항목 삭제하는 로직", "should_trigger": true},
+  {"query": "can you have kiro implement this? I want retry logic added to the payment webhook handler in payments/webhook.py, 3 attempts with exponential backoff", "should_trigger": true},
+  {"query": "이번엔 kiro한테 구현 위임해서 처리하자, 토큰 아끼고 싶어서. 대상은 알림 이메일 템플릿 다국어 지원", "should_trigger": true},
+  {"query": "kiro implement this: a rate limiter middleware for the /api/search endpoint, 20 req/min per IP", "should_trigger": true},
+  {"query": "돈 아끼려고 kiro cli 구독 크레딧으로 이거 구현시키고 싶은데, 다크모드 토글 버튼 추가하는 거", "should_trigger": true},
+  {"query": "hand this off to kiro to implement — refactor the order-total calculation so tax is computed per line item instead of on the subtotal", "should_trigger": true},
+  {"query": "kiro cli로 이 버그 고치는 것도 아니고 새 기능 구현시키려고 하는데, 알림 설정 페이지에 이메일/푸시 개별 토글 추가해줘", "should_trigger": true},
+
+  {"query": "다른 AI들한테 이 PR 리뷰 좀 맡기고 싶어, kiro-cli 있고 codex도 있어. auth 미들웨어 바꾼 부분이 걱정돼서", "should_trigger": false},
+  {"query": "kiro야, 이 diff 좀 리뷰만 해줘, 커밋은 아직 안 할 거야", "should_trigger": false},
+  {"query": "can kiro just review my staged changes before I commit? don't want it writing anything, just want a second set of eyes", "should_trigger": false},
+  {"query": "잘 모르겠어서 여러 AI 의견 듣고 싶은데, 이 캐시 전략을 redis로 갈지 in-memory LRU로 갈지 kiro랑 codex한테 물어봐줄 수 있어?", "should_trigger": false},
+  {"query": "kiro credits 얼마나 남았는지랑 이 플러그인이 정확히 뭘 하는 건지 설명해줄래? 아직 안 써봤어", "should_trigger": false},
+  {"query": "just implement the retry logic for the webhook handler yourself, no need to bring in kiro or anything, keep it simple", "should_trigger": false},
+  {"query": "kiro-cli 써서 review on commit 켜는 방법 좀 알려줘, 설정만 알고 싶은거야", "should_trigger": false},
+  {"query": "review this diff with kiro and codex both and tell me if they disagree on anything, especially around the new rate limiter", "should_trigger": false},
+  {"query": "add a retry to this function", "should_trigger": false},
+  {"query": "kiro setup 한 다음에 review.on_commit이랑 default_delegate 차이가 뭔지 헷갈려서 물어보는거야, 아직 뭘 시키려는건 아니고", "should_trigger": false},
+  {"query": "이거 구현하기 전에 다른 AI 의견도 들어보고 싶어서 — Nygard 형식 ADR로 대안이랑 트레이드오프 정리해줄 수 있어? 세션 저장 방식을 JWT로 바꿀지 서버사이드로 갈지", "should_trigger": false}
+]

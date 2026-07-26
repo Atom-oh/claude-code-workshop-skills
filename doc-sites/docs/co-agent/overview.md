@@ -59,7 +59,7 @@ flowchart LR
 |------|--------|------|
 | **Review** | "다른 AI로 리뷰", "second opinion", "멀티 AI" | 같은 리뷰 프롬프트를 패널에 병렬 팬아웃 → Claude가 합의/이견 종합 + Well-Architected → PASS/REVIEW/FAIL |
 | **Decide** | "잘 모르겠어", "의사결정 도와", "협업해서 결정" | 결정+옵션을 패널에 질의 → 비교표(옵션×AI) → Claude 단일 추천 + 결정 트레이드오프 |
-| **ADR** | "ADR 협업" | 패널에서 대안·트레이드오프·리스크 수집 → Claude가 Nygard ADR 초안 (project-init `/add-adr` 연동) |
+| **ADR** | "ADR 협업" | 패널에서 대안·트레이드오프·리스크 수집 → Claude가 Nygard ADR 초안 → `docs/decisions/ADR-NNN.md`에 자동 번호 부여·저장 |
 | **sync-context** | `/co-agent:sync-context` | `CLAUDE.md`를 증류해 `AGENTS.md` 생성 — Kiro·Codex·Agy가 이 하나의 파일을 공통 참조 |
 | **consensus** | `/co-agent:consensus` | Claude/Codex가 직접 코드를 작성(TDD), 패널이 plan(P2)·구현 diff(P4)를 리뷰만 |
 | **harness** | `/co-agent:harness` | 크로스벤더 peer(Codex/Agy)가 격리 worktree에서 구현, host가 설계·테스트·커밋 전권 소유 |

@@ -71,9 +71,9 @@ see it in an older note, treat the agent-file requirement above as authoritative
 - **cwd MUST be the task's worktree** (`worktree.py add <wt> --base HEAD`), never the main
   checkout — this is the actual isolation boundary. See "Trust boundary" below.
 - **`--v3` narrows the model catalog** and can reject some model ids
-  (`INVALID_MODEL_ID` — reproduced with pre-rename model names; see co-agent's ADR-012).
-  Drop `--v3` whenever an explicit `--model` is set; only use `--v3`+no-model for the
-  CLI's own default routing.
+  (`INVALID_MODEL_ID` — reproduced with pre-rename model names; see co-agent's
+  `ai-cli-adapters.md` for the same finding on its own roster). Drop `--v3` whenever
+  an explicit `--model` is set; only use `--v3`+no-model for the CLI's own default routing.
 
 ## Review (read-only)
 

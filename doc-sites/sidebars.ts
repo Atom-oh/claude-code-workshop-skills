@@ -23,16 +23,6 @@ const sidebars: SidebarsConfig = {
     'kiro/commands/commands',
   ],
 
-  projectInit: [
-    'project-init/overview',
-    'project-init/installation',
-    'project-init/agents/doc-sync-checker',
-    'project-init/skills/project-scaffolder',
-    'project-init/skills/pr-autofix',
-    'project-init/skills/decision-reconcile',
-    'project-init/commands/commands',
-  ],
-
   kiroConverter: [
     'kiro-power-converter/overview',
     'kiro-power-converter/installation',

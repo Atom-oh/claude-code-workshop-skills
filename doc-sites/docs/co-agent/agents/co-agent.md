@@ -19,7 +19,7 @@ title: "co-agent"
 
 1. **Multi-AI Review** — 코드/아키텍처 리뷰 프롬프트를 사용 가능한 AI CLI에 팬아웃, 각 의견을 수집해 합의/이견 + AWS Well-Architected로 종합
 2. **Decision Support** — 사용자가 확신이 없을 때("잘 모르겠어") 결정+옵션을 패널에 붙여 비교표를 만들고 종합 추천을 제시
-3. **ADR Co-authoring** — 패널에서 대안/트레이드오프/리스크를 모아 Nygard 형식 ADR 초안 작성. project-init `/add-adr`과 연동
+3. **ADR Co-authoring** — 패널에서 대안/트레이드오프/리스크를 모아 Nygard 형식 ADR 초안 작성. `docs/decisions/ADR-*.md`를 스캔해 자동 번호 부여 후 저장
 
 Claude가 항상 의장입니다: 각 AI의 포인트를 출처 표기하고, 이견을 표면화하며, 최종 판정은 Claude가 소유합니다.
 
@@ -63,11 +63,9 @@ echo "Panel: ${PANEL:-none (Claude solo)}"
 
 ## 다른 에이전트와의 연계
 
-| 상황 | 연계 | 역할 분담 |
-|------|------|-----------|
-| 코드/PR 리뷰 | `project-init:pr-autofix` | co-agent가 멀티-AI 리뷰, pr-autofix가 피드백 반영 |
-| 설계 의사결정 | `project-init:/add-adr` | co-agent가 패널 협업 + ADR 초안, add-adr이 번호 부여/저장 |
-| AWS 인프라 변경 | `aws-ops-plugin` 에이전트 | co-agent가 다중 AI 설계 검증, ops가 실행 진단 |
+이 마켓플레이스는 현재 `co-agent`·`kiro`·`kiro-power-converter`만 제공한다.
+PR 리뷰 피드백 반영은 사용자가 직접(또는 `kiro:delegate`로) 하고, ADR 번호 부여/저장은
+co-agent가 자체적으로 수행한다(위 "ADR Co-authoring" 참고) — 별도 플러그인 연계는 없다.
 
 ## 참고 파일
 
