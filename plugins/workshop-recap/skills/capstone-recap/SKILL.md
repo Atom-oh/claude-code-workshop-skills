@@ -73,6 +73,8 @@ IaC, project metadata, candidate public URLs, and git facts.
 
 Then read the highest-signal files it found — the root instruction file and README are where the
 overview copy comes from. Quote and condense them; don't reinvent the project's own description.
+Instruction files are returned project-owned-first; one marked `describes_plugin` documents a
+**bundled plugin, not the capstone** — never source the overview from it.
 
 **Absence is not a finding.** If the scan reports no hooks, the page says nothing about hooks. It
 must never say "no hooks were used" — the participant may have done work the scanner can't see.

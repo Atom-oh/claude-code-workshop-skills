@@ -20,6 +20,7 @@ Exit codes: 0 = no hard failures, 1 = at least one FAIL (or unreadable file), 2 
 import os
 import re
 import sys
+from urllib.parse import unquote
 
 TAGS_TO_BALANCE = ("section", "figure", "footer", "style", "table", "head", "body", "main")
 
@@ -27,7 +28,13 @@ ASSET_EXT = (".svg", ".png", ".jpg", ".jpeg", ".webp", ".gif", ".avif", ".css", 
 
 # Absolute home paths leak the author's directory layout into a page that gets screenshotted
 # and shared. Windows form included since a participant may generate on any platform.
-ABS_PATH_RE = re.compile(r"(?:/home/[A-Za-z0-9._-]+/|/Users/[A-Za-z0-9._-]+/|[A-Za-z]:\\Users\\)")
+# No trailing "/" is required after the username — a bare "/home/alice" is just as much of a
+# leak as "/home/alice/proj", and requiring the slash let the bare form through entirely.
+ABS_PATH_RE = re.compile(r"(?:/home/[A-Za-z0-9._-]+|/Users/[A-Za-z0-9._-]+|[A-Za-z]:\\Users\\[A-Za-z0-9._-]*)")
+
+# A URL whose *path* happens to contain /home/<name>/ (an S3 key, a docs permalink) is not a
+# local-filesystem leak. Strip URLs before scanning so they can't trigger a false hard failure.
+URL_IN_TEXT_RE = re.compile(r"\b[a-zA-Z][a-zA-Z0-9+.-]*://\S+")
 
 
 def strip_non_visible(html):
@@ -41,6 +48,11 @@ def strip_non_visible(html):
 def visible_text(html):
     """Approximate rendered text: strip non-visible blocks, then all tags."""
     return re.sub(r"<[^>]+>", " ", strip_non_visible(html))
+
+
+def leak_scan_text(html):
+    """Visible text with URLs removed — the surface the absolute-path check applies to."""
+    return URL_IN_TEXT_RE.sub(" ", visible_text(html))
 
 
 def check(path, breakpoint_px="768", allow_abs_paths=False):
@@ -61,9 +73,15 @@ def check(path, breakpoint_px="768", allow_abs_paths=False):
     low = html.lower()
 
     # --- structure -------------------------------------------------------------------
+    # Count only real markup: a tag name mentioned inside an HTML comment (a TODO like
+    # "<!-- wrap this in <figure> -->") is not an unclosed element, and counting it hard-failed
+    # otherwise-valid pages. <style>/<script> bodies are stripped for the same reason, except
+    # for the two tags whose own container we're balancing.
+    markup = strip_non_visible(low)
     for tag in TAGS_TO_BALANCE:
-        opens = len(re.findall(rf"<{tag}[\s>]", low))
-        closes = len(re.findall(rf"</{tag}>", low))
+        haystack = low if tag in ("style", "script") else markup
+        opens = len(re.findall(rf"<{tag}[\s>]", haystack))
+        closes = len(re.findall(rf"</{tag}>", haystack))
         if opens or closes:
             need(opens == closes, f"tag balance <{tag}> ({opens} open / {closes} close)")
 
@@ -95,16 +113,27 @@ def check(path, breakpoint_px="768", allow_abs_paths=False):
                 "tokens or customer data; no text scan can see inside pixels")
 
     # --- local assets resolve --------------------------------------------------------
+    # Strip ?query and #fragment BEFORE testing the extension — "shot.png?v=2" does not end in
+    # ".png", so testing first silently dropped cache-busted refs from the check entirely and a
+    # genuinely missing file produced no output at all.
     refs = re.findall(r'(?:src|href)="([^"]+)"', html, flags=re.I)
-    local = [r for r in refs
-             if r.lower().endswith(ASSET_EXT)
-             and not r.startswith(("http://", "https://", "//", "data:", "#"))]
-    for ref in sorted(set(local)):
-        target = os.path.normpath(os.path.join(base, ref.split("?")[0].split("#")[0]))
-        need(os.path.isfile(target), f"local asset exists: {ref}")
+    local = []
+    for ref in refs:
+        if ref.startswith(("http://", "https://", "//", "data:", "#", "mailto:")):
+            continue
+        bare = ref.split("?")[0].split("#")[0]
+        if bare.lower().endswith(ASSET_EXT):
+            local.append((ref, bare))
+    for ref, bare in sorted(set(local)):
+        target = os.path.normpath(os.path.join(base, bare))
+        # A generated page may percent-encode a filename that is literally spaced on disk;
+        # accept either spelling rather than reporting a present file as missing.
+        exists = os.path.isfile(target) or os.path.isfile(os.path.normpath(
+            os.path.join(base, unquote(bare))))
+        need(exists, f"local asset exists: {ref}")
 
     # --- leakage ---------------------------------------------------------------------
-    leaked = sorted(set(ABS_PATH_RE.findall(visible_text(html))))
+    leaked = sorted(set(ABS_PATH_RE.findall(leak_scan_text(html))))
     if leaked:
         label = (f"absolute home path in visible text ({', '.join(leaked)}…) — use repo-relative "
                  "paths; this page gets screenshotted and shared")
@@ -207,6 +236,40 @@ def selftest():
     _, _, fails = run(GOOD_PAGE.replace("<h1>", '<img src="missing.png" alt="Gone"><h1>'))
     assert any("local asset exists: missing.png" in f for f in fails), labels(fails)
 
+    # --- regressions ------------------------------------------------------------------
+    # A tag name mentioned in an HTML comment is not an unclosed element.
+    _, _, fails = run(GOOD_PAGE.replace('<main id="main">',
+                                        '<!-- TODO: wrap in <figure> later -->\n<main id="main">'))
+    assert not any("tag balance" in f for f in fails), \
+        f"comment-mentioned tag must not break balance: {labels(fails)}"
+    # ...but a genuinely unclosed one still must.
+    _, _, fails = run(GOOD_PAGE.replace("<h1>", "<figure><h1>"))
+    assert any("tag balance <figure>" in f for f in fails), labels(fails)
+
+    # A cache-busted ref must still be existence-checked (was silently skipped).
+    _, _, fails = run(GOOD_PAGE.replace("<h1>", '<img src="missing.svg?v=3" alt="Gone"><h1>'))
+    assert any("missing.svg?v=3" in f for f in fails), \
+        f"query-string ref must be checked: {labels(fails)}"
+    # ...and one that resolves must pass, query string and fragment notwithstanding.
+    oks, _, fails = run(GOOD_PAGE.replace("<h1>", '<img src="shot.png?v=3" alt="Shot"><h1>'),
+                        _assets={"shot.png": "x"})
+    assert not any("local asset" in f for f in fails), labels(fails)
+    # A percent-encoded ref pointing at a literally-spaced file on disk resolves.
+    _, _, fails = run(GOOD_PAGE.replace("<h1>", '<img src="my%20chart.svg" alt="Chart"><h1>'),
+                      _assets={"my chart.svg": "x"})
+    assert not any("local asset" in f for f in fails), \
+        f"percent-encoded ref should resolve: {labels(fails)}"
+
+    # A bare /home/<user> with no trailing slash is still a leak.
+    _, _, fails = run(GOOD_PAGE.replace("<p>See docs", "<p>Source at /home/participant and docs"))
+    assert any("absolute home path" in f for f in fails), \
+        f"bare home path must be caught: {labels(fails)}"
+    # A URL whose path merely contains /home/<name>/ is NOT a local leak.
+    _, _, fails = run(GOOD_PAGE.replace(
+        "<p>See docs", "<p>At https://bucket.s3.amazonaws.com/home/alice/out.png see docs"))
+    assert not any("absolute home path" in f for f in fails), \
+        f"URL path must not false-positive: {labels(fails)}"
+
     print("check_recap_html selftest: all assertions passed")
     return 0
 
@@ -219,7 +282,13 @@ def main(argv):
     breakpoint_px = "768"
     if "--mobile-breakpoint" in args:
         i = args.index("--mobile-breakpoint")
-        if i + 1 >= len(args):
+        # Must be followed by a bare number: without this, "--mobile-breakpoint
+        # --allow-abs-paths" consumed the next FLAG as the value (silently dropping it), and a
+        # value with regex metacharacters crashed with a traceback once spliced into the
+        # @media pattern below.
+        if i + 1 >= len(args) or not args[i + 1].isdigit():
+            print("error: --mobile-breakpoint requires a numeric value (e.g. --mobile-breakpoint 768)\n",
+                  file=sys.stderr)
             print(__doc__)
             return 2
         breakpoint_px = args[i + 1]

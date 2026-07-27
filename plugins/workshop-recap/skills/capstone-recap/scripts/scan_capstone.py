@@ -107,17 +107,32 @@ def read_json(path):
 
 
 def scan_instructions(root):
-    """Agent instruction files — the richest source for the project overview."""
+    """Agent instruction files — the richest source for the project overview.
+
+    A CLAUDE.md bundled *inside a plugin* documents that plugin, not the capstone, so it must not
+    be cited as the project's own description. Such files are still reported, but flagged
+    `describes_plugin` so the caller can prefer the real ones; `root_level` marks the top-level
+    file, which is the best overview source when it exists.
+    """
     found = []
     for name in INSTRUCTION_FILES:
         for path in find_files(root, f"**/{name}"):
-            # A plugin's own bundled CLAUDE.md describes the plugin, not the capstone.
-            depth = path.count("/")
+            parts = path.split("/")
+            # Inside a plugin if any ancestor dir carries a plugin manifest.
+            describes_plugin = False
+            for i in range(len(parts) - 1):
+                ancestor = "/".join(parts[:i + 1])
+                if os.path.isdir(os.path.join(root, ancestor, ".claude-plugin")):
+                    describes_plugin = True
+                    break
             found.append({
                 "path": path,
                 "lines": sum(1 for _ in open(os.path.join(root, path), encoding="utf-8", errors="replace")),
-                "root_level": depth == 0,
+                "root_level": len(parts) == 1,
+                "describes_plugin": describes_plugin,
             })
+    # Root-level and project-owned files first — the caller reads from the top.
+    found.sort(key=lambda f: (f["describes_plugin"], not f["root_level"], f["path"]))
     return found
 
 
@@ -330,9 +345,12 @@ def scan_iac(root):
     for marker, label in IAC_MARKERS.items():
         for path in find_files(root, f"**/{marker}"):
             out.append({"path": path, "kind": label})
-    for path in find_files(root, "**/*.tf", limit=20):
-        out.append({"path": path, "kind": "Terraform"})
-        break
+    # Report the Terraform root(s), not every module file — but cite a real directory rather than
+    # one arbitrary .tf, since a multi-root project would otherwise be represented by whichever
+    # file happened to sort first.
+    tf_dirs = sorted({os.path.dirname(p) or "." for p in find_files(root, "**/*.tf", limit=200)})
+    for d in tf_dirs[:5]:
+        out.append({"path": d, "kind": "Terraform"})
     return out
 
 
@@ -468,7 +486,9 @@ def render_summary(inv):
             lines.append(f"  ... {len(items) - 25} more")
         lines.append("")
 
-    block("Instruction files", inv["instructions"], lambda i: f"{i['path']} ({i['lines']} lines)")
+    block("Instruction files", inv["instructions"],
+          lambda i: f"{i['path']} ({i['lines']} lines)"
+                    + ("  [documents a bundled plugin — not the capstone]" if i["describes_plugin"] else ""))
     block("Subagents", inv["subagents"], lambda i: f"{i['name']:24} {i['path']}")
     block("Slash commands", inv["commands"], lambda i: f"{i['name']:24} {i['path']}")
     block("Skills", inv["skills"], lambda i: f"{i['name']:24} {i['path']}")
@@ -533,6 +553,8 @@ def selftest():
         cap = inv["capability_summary"]
 
         assert [i["path"] for i in inv["instructions"]] == ["CLAUDE.md"], inv["instructions"]
+        assert inv["instructions"][0]["root_level"] is True
+        assert inv["instructions"][0]["describes_plugin"] is False
         assert cap["subagents"] == 1, inv["subagents"]
         assert inv["subagents"][0]["name"] == "level-designer"
         assert inv["subagents"][0]["model"] == "sonnet"
@@ -557,6 +579,27 @@ def selftest():
         assert inv["settings"][0]["env_names"] == ["SECRET_TOKEN"]
         # Vendored dirs must be skipped entirely.
         assert "node_modules" not in blob, "node_modules content leaked into the inventory"
+
+    # A CLAUDE.md bundled inside a plugin documents the plugin, not the capstone — it must be
+    # flagged and must never outrank the project's own root instruction file.
+    with tempfile.TemporaryDirectory() as tmp:
+        write(f"{tmp}/CLAUDE.md", "# The capstone itself\n")
+        write(f"{tmp}/plugins/mytool/.claude-plugin/plugin.json", json.dumps({"name": "mytool"}))
+        write(f"{tmp}/plugins/mytool/CLAUDE.md", "# mytool plugin docs\n")
+        instructions = scan(tmp)["instructions"]
+        by_path = {i["path"]: i for i in instructions}
+        assert by_path["CLAUDE.md"]["describes_plugin"] is False, instructions
+        assert by_path["plugins/mytool/CLAUDE.md"]["describes_plugin"] is True, instructions
+        assert instructions[0]["path"] == "CLAUDE.md", \
+            f"project's own instruction file must sort first: {instructions}"
+
+    # Multiple Terraform roots are reported as directories, not one arbitrary .tf file.
+    with tempfile.TemporaryDirectory() as tmp:
+        write(f"{tmp}/infra/main.tf", "resource {}\n")
+        write(f"{tmp}/infra/vars.tf", "variable {}\n")
+        write(f"{tmp}/modules/net/main.tf", "resource {}\n")
+        tf = [i["path"] for i in scan(tmp)["iac"] if i["kind"] == "Terraform"]
+        assert tf == ["infra", "modules/net"], tf
 
     with tempfile.TemporaryDirectory() as empty:
         inv = scan(empty)

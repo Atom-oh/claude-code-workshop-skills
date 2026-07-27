@@ -108,7 +108,10 @@ The spine is in `SKILL.md`. Two conventions matter to the checker and to honesty
 
 ## 5. Accessibility
 
-Not optional; the checker enforces most of it.
+Not optional. Note what is and isn't mechanical: `check_recap_html.py` hard-fails only on missing
+`:focus-visible` and `prefers-reduced-motion`, and warns on a missing skip link. **Contrast,
+`aria-hidden` on decorative SVG, tap-target size, and table `<caption>` are not checked by any
+script** — they're on you.
 
 - Skip link as the first focusable element: visually hidden, visible on `:focus`, targeting `#main`.
 - `:focus-visible{outline:2px solid var(--accent); outline-offset:3px}` — default rings are nearly
